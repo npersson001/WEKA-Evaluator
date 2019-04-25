@@ -139,10 +139,10 @@ public class Main {
 		train.setClassIndex(numAttr - 1);
 		test.setClassIndex(numAttr - 1);
 		
-//		SMOTE smote = new SMOTE();
-//		smote.setInputFormat(train);
-//		smote.setOptions(weka.core.Utils.splitOptions("-C 0 -K 5 -P " + 
-//					getSMOTEPercentage(train) + " -S 1"));
+		SMOTE smote = new SMOTE();
+		smote.setInputFormat(train);
+		smote.setOptions(weka.core.Utils.splitOptions("-C 0 -K 5 -P " + 
+					getSMOTEPercentage(train) + " -S 1"));
 		
 		/** classifiers setting*/
 		J48 j48 = new J48();
@@ -150,14 +150,14 @@ public class Main {
 
 		FilteredClassifier fc = new FilteredClassifier();
 		fc.setClassifier(j48);
-//		fc.setFilter(smote);
+		fc.setFilter(smote);
 		fc.buildClassifier(train);
 		
 		Evaluation eval = new Evaluation(train);
-		long start = System.nanoTime();
+//		long start = System.nanoTime();
 		eval.evaluateModel(fc, test);
-		long end = System.nanoTime();
-		System.out.println((path.split("/"))[1] + ", " + ((1.0 * end)-start) + ", " + test.numInstances() + ", " + (((1.0 * end)-start)/test.numInstances()));
+//		long end = System.nanoTime();
+//		System.out.println((path.split("/"))[1] + ", " + ((1.0 * end)-start) + ", " + test.numInstances() + ", " + (((1.0 * end)-start)/test.numInstances()));
 //		eval.crossValidateModel(j48, data, 10, new Random(1));
 		
 		// fill in the results
@@ -208,11 +208,11 @@ public class Main {
 		double[] results = new double[7];
 		for(int i = 0; i < FILES.length; i++){
 			results = m.getAverageEvalResults(RUNS, FILES[i]);
-//			System.out.print(FILES[i] + ",");
-//			for(double result : results){
-//				System.out.print(result + ",");
-//			}
-//			System.out.println();
+			System.out.print(FILES[i] + ",");
+			for(double result : results){
+				System.out.print(result + ",");
+			}
+			System.out.println();
 		}
 	}
 }
